@@ -1,11 +1,30 @@
 import React from 'react';
-import Container from '@mui/material/Container';
+import '../public/css/common/reset.sass';
+import 'antd/dist/antd.css';
+import Desktop from "./components/common/MediaType/Desktop";
+import Tablet from "./components/common/MediaType/Tablet";
+import Mobile from "./components/common/MediaType/Mobile";
+import Header from "./components/common/Header";
+import Section from "./components/common/Section";
+import Board from "./components/board/Board";
 
 const App = () => {
-  return (
-      <Container maxWidth="sm">
-
-      </Container>
+    return (
+      <div>
+          <Desktop>
+              <Header />
+              <Section>
+                  <Board />
+              </Section>
+          </Desktop>
+          <Tablet>
+              <Header />
+              <Section>
+                  <Board />
+              </Section>
+          </Tablet>
+          <Mobile>Mobile</Mobile>
+      </div>
   )
 };
 
