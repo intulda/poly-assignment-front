@@ -12,7 +12,7 @@ module.exports = {
         filename: 'bundle.js'
     },
     resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
     devtool: 'eval-cheap-source-map',
     devServer: {
@@ -25,6 +25,11 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: '/node_modules/',
                 loader: 'babel-loader'
+            },
+            {
+                test: /\.tsx?$/,
+                exclude: '/node_modules/',
+                use: "ts-loader",
             },
             {
                 test: /\.css$/,
