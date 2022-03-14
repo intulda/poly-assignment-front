@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 import PolyApp from './src';
 import { Provider } from "react-redux";
 import store from "./src/store/storeConfiguration";
 
 const rootElement = document.querySelector('#polyApp');
 
-ReactDom.render(
+ReactDOM.render(
     <Provider store={store}>
         <PolyApp />
     </Provider>
