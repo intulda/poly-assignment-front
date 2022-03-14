@@ -11,19 +11,24 @@ import Board from "./components/board/Board";
 const App = () => {
     return (
       <div>
-          <Desktop>
+          {/*<Desktop>*/}
               <Header />
               <Section>
                   <Board />
               </Section>
-          </Desktop>
-          <Tablet>
-              <Header />
-              <Section>
-                  <Board />
-              </Section>
-          </Tablet>
-          <Mobile>Mobile</Mobile>
+          {/*</Desktop>*/}
+          {/*<Tablet>*/}
+          {/*    <Header />*/}
+          {/*    <Section>*/}
+          {/*        <Board />*/}
+          {/*    </Section>*/}
+          {/*</Tablet>*/}
+          {/*<Mobile>*/}
+          {/*    <Header />*/}
+          {/*    <Section>*/}
+          {/*        <Board />*/}
+          {/*    </Section>*/}
+          {/*</Mobile>*/}
       </div>
   )
 };

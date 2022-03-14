@@ -7,7 +7,7 @@ const devMode = process.env.NODE_ENV !== "production";
 dotenv.config();
 
 module.exports = {
-    entry: './index.js',
+    entry: './index.tsx',
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: 'bundle.js'
