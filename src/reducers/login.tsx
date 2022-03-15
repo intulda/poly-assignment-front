@@ -51,6 +51,7 @@ export const LOGIN_FAILURE: string = "LOGIN_FAILURE";
 export const LOGOUT_REQUEST: string = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS: string = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILURE: string = "LOGOUT_FAILURE";
+export const CHANGE_LOGIN_ERROR: string = "CHANGE_LOGIN_ERROR";
 
 export const LOGIN_MODAL_OPEN: string = "LOGIN_MODAL_OPEN";
 export const LOGIN_MODAL_CLOSE: string = "LOGIN_MODAL_CLOSE";
@@ -82,6 +83,33 @@ export const LOGIN_MODAL_CLOSE_ACTION = () => ({
 
 const reducer = (state: LoginRootStateType = initialState, action: actionType) => {
     switch (action.type) {
+        case LOGOUT_REQUEST:
+            return {
+                ...state
+            }
+        case LOGOUT_SUCCESS:
+            localStorage.removeItem("refreshToken");
+            return {
+                ...state,
+                common: {
+                    ...state.common,
+                    isLoggedIn: false,
+                },
+                loginResponse: {
+                    ...state.loginResponse,
+                    user: null,
+                    token: null
+                }
+            }
+        case CHANGE_LOGIN_ERROR:
+            return {
+                ...state,
+                common: {
+                    ...state.common,
+                    isLoginError: false,
+                }
+
+            }
         case LOGIN_REQUEST:
         return {
                 ...state,
