@@ -8,8 +8,8 @@ interface IconTextType {
 
 const IconText = ({ icon, text }: IconTextType) => (
   <Space>
-    {React.createElement(icon)}
-    {text}
+      {React.createElement(icon)}
+      {text}
   </Space>
 );
 
