@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../../public/css/section.sass';
-import LoginModal from "../LoginModal";
+import LoginModal from "../login/LoginModal";
 import {useSelector} from "react-redux";
 import {RootState} from "../../reducers";
 
@@ -10,7 +10,7 @@ interface sectionTypes {
 
 const Section = ({children}: sectionTypes) => {
 
-    const {isLoginModalOpen} = useSelector((state: RootState) => state.login);
+    const {isLoginModalOpen} = useSelector((state: RootState) => state.login.common);
 
     return (
         <div className="section_container">

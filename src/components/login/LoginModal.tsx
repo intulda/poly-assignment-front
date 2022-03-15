@@ -1,32 +1,29 @@
-import React, {useState} from 'react';
-import {Button, Checkbox, Form, Input, Modal} from "antd";
+import React, {useEffect, useState} from 'react';
+import {Button, Checkbox, Form, Input, message, Modal} from "antd";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../reducers";
-import {LOGIN_MODAL_CLOSE_ACTION} from "../reducers/login";
+import {RootState} from "../../reducers";
+import {
+    LOGIN_MODAL_CLOSE_ACTION,
+    LOGIN_REQUEST_ACTION
+} from "../../reducers/login";
 
-interface Values {
-    title: string;
-    description: string;
-    modifier: string;
+export interface LoginValues {
+    username: string;
+    password: string;
 }
 
 const LoginModal = () => {
     const [isModalVisible, setIsModalVisible] = useState(true);
-    const {isLoginLoading} = useSelector((state: RootState) => state.login);
+    const {isLoginLoading} = useSelector((state: RootState) => state.login.common);
     const dispatch = useDispatch();
 
-    const handleOk = (values: Values) => {
-
-
-
-        console.log(values);
-        setIsModalVisible(false);
-        dispatch(LOGIN_MODAL_CLOSE_ACTION());
+    const handleOk = (values: LoginValues) => {
+        dispatch(LOGIN_REQUEST_ACTION(values));
     };
 
     const handleCancel = () => {
-        setIsModalVisible(false);
         dispatch(LOGIN_MODAL_CLOSE_ACTION());
+        setIsModalVisible(false);
     };
 
     const [form] = Form.useForm();
@@ -71,7 +68,7 @@ const LoginModal = () => {
                         name="password"
                         rules={[{required: true, message: '비밀번호를 입력해주세요!'}]}
                     >
-                        <Input.Password/>
+                        <Input.Password className="login__password-input"/>
                     </Form.Item>
                 </Form>
             </Modal>
