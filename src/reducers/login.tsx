@@ -199,6 +199,7 @@ const reducer = (state: LoginRootStateType = initialState, action: actionType) =
                 }
             }
         case GET_USER_INFO_FAILURE:
+            localStorage.removeItem("refreshToken");
             return {
                 ...state,
                 common: {

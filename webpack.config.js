@@ -7,6 +7,7 @@ const devMode = process.env.NODE_ENV !== "production";
 dotenv.config();
 
 module.exports = {
+    mode: 'development',
     entry: './index.js',
     output: {
         publicPath: '/',

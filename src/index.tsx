@@ -19,12 +19,7 @@ const App = () => {
         if (loggedInfo == null) {
             return;
         }
-        try {
-            dispatch(GET_USER_INFO_REQUEST_ACTION());
-        } catch (e) {
-            localStorage.removeItem("refreshToken");
-        }
-
+        dispatch(GET_USER_INFO_REQUEST_ACTION());
     }, []);
 
     return (

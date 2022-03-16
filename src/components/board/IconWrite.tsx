@@ -3,12 +3,12 @@ import React from 'react';
 import {EditOutlined} from "@ant-design/icons";
 import "../../../public/css/board.sass";
 import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const IconWrite = () => {
-    const dispatch = useDispatch();
-
+    const navi = useNavigate();
     const onClickWriteHandler = () => {
-        // dispatch(CHANGE_BOARD_WRITE_MODE_ACTION());
+        navi("/board/write");
     }
 
     return (
