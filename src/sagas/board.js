@@ -7,18 +7,20 @@ import {
     GET_BOARD_BY_ID_REQUEST, GET_BOARD_BY_ID_SUCCESS
 } from "../reducers/board";
 
-function findBoardAllAPI() {
-    return axios.get("http://localhost:8082/api/v1/boards");
+function findBoardAllAPI(action) {
+    return axios.get("http://localhost:8082/api/v1/boards", {
+        params: action.data,
+    });
 }
 
-function findBOARDAPI(action) {
-
+function findBoardAPI(action) {
     return axios.get(`http://localhost:8082/api/v1/board/${action.data}`);
 }
 
-function* findBoardAll() {
+function* findBoardAll(action) {
     try {
-        const result = yield call(findBoardAllAPI);
+        const result = yield call(findBoardAllAPI, action);
+        console.log(result);
         yield put({
             type: GET_BOARD_ALL_SUCCESS,
             data: result.data
@@ -35,7 +37,7 @@ function* findBoardAll() {
 
 function* findBoard(action) {
     try {
-        const result = yield call(findBOARDAPI, action);
+        const result = yield call(findBoardAPI, action);
         yield put({
            type: GET_BOARD_BY_ID_SUCCESS,
            data: result.data
@@ -44,6 +46,8 @@ function* findBoard(action) {
         yield put({
             type: GET_BOARD_BY_ID_FAILURE,
         })
+
+        location.href = "/";
     }
 }
 

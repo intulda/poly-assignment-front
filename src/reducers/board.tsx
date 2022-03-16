@@ -7,12 +7,17 @@ interface initialStateType {
     common: {
         pageNumber: number,
         boardLoading: boolean,
+        status: string,
     },
     search: {
         keyword: string,
         searchType: string,
     },
-    board: object,
+    detail: {
+        title: string,
+        contents: string,
+        regDate: string,
+    },
     boards: any[],
 }
 
@@ -20,12 +25,17 @@ const initialState: initialStateType= {
     common: {
         pageNumber: 0,
         boardLoading: false,
+        status: 'read',
     },
     search: {
         keyword: "",
         searchType: "all",
     },
-    board: {},
+    detail: {
+        title: null,
+        contents: null,
+        regDate: null,
+    },
     boards: [],
 }
 
@@ -37,8 +47,11 @@ export const GET_BOARD_BY_ID_REQUEST = "GET_BOARD_BY_ID_REQUEST";
 export const GET_BOARD_BY_ID_SUCCESS = "GET_BOARD_BY_ID_SUCCESS";
 export const GET_BOARD_BY_ID_FAILURE = "GET_BOARD_BY_ID_FAILURE";
 
-export const GET_BOARD_ALL_REQUEST_ACTION = () => ({
-    type: GET_BOARD_ALL_REQUEST
+export const CHANGE_BOARD_WRITE_MODE = "CHANGE_BOARD_WRITE_MODE";
+
+export const GET_BOARD_ALL_REQUEST_ACTION = (pageNumber: number) => ({
+    type: GET_BOARD_ALL_REQUEST,
+    data: {pageNumber}
 });
 
 export const GET_BOARD_BY_ID_REQUEST_ACTION = (param: number) => ({
@@ -48,6 +61,14 @@ export const GET_BOARD_BY_ID_REQUEST_ACTION = (param: number) => ({
 
 const reducer = (state: initialStateType = initialState, action: boardActionType) => {
     switch (action.type) {
+        case CHANGE_BOARD_WRITE_MODE:
+            return {
+                ...state,
+                common: {
+                    ...state.common,
+                    status: 'write',
+                }
+            }
         case GET_BOARD_BY_ID_REQUEST:
             return {
                 ...state,
@@ -57,13 +78,14 @@ const reducer = (state: initialStateType = initialState, action: boardActionType
                 }
             }
         case GET_BOARD_BY_ID_SUCCESS:
+            console.log(action);
             return {
                 ...state,
                 common: {
                     ...state.common,
                     boardLoading: false,
                 },
-                board: action.data,
+                detail: action.data,
             }
         case GET_BOARD_BY_ID_FAILURE:
             return {

@@ -73,6 +73,7 @@ function* getUserInfo() {
                 message: '유저정보없음',
             }
         })
+        location.href = "/";
     }
 }
 

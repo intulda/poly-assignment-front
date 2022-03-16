@@ -14,7 +14,11 @@ export interface LoginRootStateType {
     loginResponse: {
         status: number,
         token: string,
-        user: object,
+        user: {
+            id: number,
+            account: string,
+            name: string
+        },
     }
 }
 
@@ -32,14 +36,23 @@ const initialState: LoginRootStateType = {
     loginResponse: {
         status: null,
         token: null,
-        user: null,
+        user: {
+            id: null,
+            account: null,
+            name: null,
+        },
     }
 }
 
-interface actionType {
+export interface actionType {
     data: {
         status: number,
-        token: string
+        token: string,
+        user: {
+            id: number,
+            account: string,
+            name: string
+        },
     },
     type: string,
 }
