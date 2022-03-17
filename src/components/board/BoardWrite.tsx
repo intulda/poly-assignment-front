@@ -2,26 +2,45 @@ import React, {createRef, useEffect, useState} from "react";
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import {Button, Form, Input, message, PageHeader, Space} from "antd";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../reducers";
-import {BOARD_WRITE_REQUEST_ACTION} from "../../reducers/board";
+import {
+    BOARD_UPDATE_REQUEST_ACTION,
+    BOARD_WRITE_REQUEST_ACTION,
+    GET_BOARD_BY_ID_REQUEST_ACTION,
+    UPDATE,
+    WRITE
+} from "../../reducers/board";
 
 const BoardWrite = () => {
 
     const markdownRef:React.Ref<Editor> = createRef();
     const [form] = Form.useForm();
-    const [contents, setContents] = useState("");
+    let params = useParams();
     const navi = useNavigate();
     const {isLoggedIn} = useSelector((state: RootState) => state.login.common);
+    const {status} = useSelector((state: RootState) => state.board.common);
+    const {board}:any = useSelector((state: RootState) => state.board.detail);
     const dispatch = useDispatch();
+
+    const [boardContents, setContents] = useState(board[0]?.contents || "");
+    const [title, setTitle] = useState(board[0]?.title || "");
 
     useEffect(() => {
         if (!isLoggedIn) {
             navi("/");
         }
-    }, [isLoggedIn]);
 
+        if (status === WRITE) {
+            initBoard();
+        }
+
+        if (status === UPDATE) {
+            dispatch(GET_BOARD_BY_ID_REQUEST_ACTION(Number(params.boardId)));
+        }
+
+    }, [status, params, isLoggedIn])
 
     const onChangeHandler = () => {
         setContents(markdownRef.current.getInstance().getMarkdown());
@@ -31,8 +50,25 @@ const BoardWrite = () => {
         form.validateFields()
             .then(values => {
                 form.resetFields();
-                const data = {...values, contents};
-                dispatch(BOARD_WRITE_REQUEST_ACTION(data));
+
+                if (status === WRITE) {
+                    const data = {...values, boardContents};
+                    message.success("작성에 성공하였습니다.");
+                    setTimeout(() => {
+                        dispatch(BOARD_WRITE_REQUEST_ACTION(data));
+                    }, 500)
+
+                }
+
+                if (status === UPDATE) {
+                    const data = {boardId: params.boardId, ...values, boardContents};
+                    message.success("수정되었습니다.");
+                    setTimeout(() => {
+                        dispatch(BOARD_UPDATE_REQUEST_ACTION(data));
+                    }, 500)
+
+
+                }
 
             }).catch(info => {
             console.log('validate failed', info);
@@ -43,6 +79,10 @@ const BoardWrite = () => {
         message.error(`[글작성 실패]: 제목 또는 내용을 입력해주세요.`);
     }
 
+    const initBoard = () => {
+        markdownRef.current.getInstance().reset();
+        setTitle("");
+    }
 
     return (
         <>
@@ -50,7 +90,7 @@ const BoardWrite = () => {
                   name="basic"
                   labelCol={{span: 24}}
                   wrapperCol={{span: 24}}
-                  initialValues={{remember: true}}
+                  initialValues={{remember: false}}
                   autoComplete="off"
                   onFinish={onSubmitHandler}
                   onFinishFailed={onFinishFailHandler}
@@ -58,18 +98,21 @@ const BoardWrite = () => {
                 <Space direction="vertical" size="middle">
                     <PageHeader
                         className="site-page-header"
-                        onBack={() => navi(-1)}
-                        title="게시글 작성"
+                        onBack={() => navi("/")}
+                        title={
+                            status === WRITE ? '게시글 작성'
+                                : '게시글 수정'
+                        }
                     />
-                    <Form.Item name="title" rules={[{required: true, message: '제목을 입력해주세요!'}]}>
-                        <Input/>
+                    <Form.Item name="boardTitle" initialValue={title} rules={[{required: true, message: '제목을 입력해주세요!'}]}>
+                        <Input />
                     </Form.Item>
-                    <Form.Item name="contents" rules={[{required: true, message: '내용을 입력해주세요!'}]}>
+                    <Form.Item name="boardContents" rules={[{required: true, message: '내용을 입력해주세요!'}]}>
                         <Editor
                             previewStyle="vertical"
                             height="600px"
                             initialEditType="markdown"
-                            initialValue={contents}
+                            initialValue={boardContents}
                             useCommandShortcut={true}
                             placeholder="내용을 입력해주세요!"
                             ref={markdownRef}
@@ -77,7 +120,11 @@ const BoardWrite = () => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" style={{float: 'right'}} htmlType={"submit"}>글쓰기</Button>
+                        <Button type="primary" style={{float: 'right'}} htmlType={"submit"}>
+                            {
+                                status === WRITE ? `글쓰기` : '수정하기'
+                            }
+                        </Button>
                     </Form.Item>
                 </Space>
             </Form>

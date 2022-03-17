@@ -5,9 +5,18 @@
 
 
 .section_wrap
+  display: flex
+  justify-content: center
+  align-items: center
+  flex-direction: column
   padding: 100px 100px
+  & .site-page-hader
+    border: 1px solid rgb(235, 237, 240)
   & .ant-page-header
+    width: 1000px
     padding: 16px 0
+  & .ant-list
+    width: 100%
 
 .section_header
   display: flex
@@ -17,7 +26,6 @@
   width: 100%
   border-bottom: 1px solid #bfbfbf
   margin: 30px 0
-  z-index: 10
   & > h1
     flex: 7
   & > span

@@ -1,58 +1,72 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {useParams, useNavigate} from "react-router-dom";
-import {Avatar, Button, Descriptions, Form, PageHeader, Space, Typography} from "antd";
+import React, {useCallback, useEffect} from "react";
+import {useParams, useNavigate, Link} from "react-router-dom";
+import {Avatar, Button, message, PageHeader, Popconfirm, Space} from "antd";
 import {useDispatch, useSelector} from "react-redux";
-import {GET_BOARD_BY_ID_REQUEST_ACTION} from "../../reducers/board";
+import {
+    BOARD_DELETE_REQUEST_ACTION,
+    CHANGE_BOARD_UPDATE_MODE_ACTION,
+    GET_BOARD_BY_ID_REQUEST_ACTION
+} from "../../reducers/board";
 import {RootState} from "../../reducers";
-import Paragraph from "antd/es/typography/Paragraph";
-import Title from "antd/es/typography/Title";
-
+import {Viewer} from "@toast-ui/react-editor";
 
 const BoardDetail = () => {
     let params = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [form] = Form.useForm();
 
     // @ts-ignore
     const {account_id, board} = useSelector((state: RootState) => state.board.detail);
     const {user}: any = useSelector((state: RootState) => state.login.loginResponse);
-    const [contentsDetail, setContents] = useState(board[0].contents);
+
+    const onClickUpdateHandler = useCallback(() => {
+        dispatch(CHANGE_BOARD_UPDATE_MODE_ACTION(board[0]?.boardId));
+    }, [board]);
+
+    const onClickDeleteHandler = useCallback(() => {
+        message.success("삭제되었습니다");
+        setTimeout(() => {
+            dispatch(BOARD_DELETE_REQUEST_ACTION(board[0]?.id));
+        }, 500)
+    }, [board])
 
     useEffect(() => {
         dispatch(GET_BOARD_BY_ID_REQUEST_ACTION(Number(params.boardId)));
-    }, [params])
+    }, [params]);
 
     return (
         <>
             <PageHeader
                 className="site-page-header"
-                onBack={() => {navigate(-1)}}
-                title={`${board[0].title}`}
+                onBack={() => {navigate("/")}}
+                title={`${board[0]?.title}`}
                 subTitle={
                     <Space>
-                        {board[0].regDate}
+                        {board[0]?.regDate}
                         <Avatar style={{ verticalAlign: 'middle' }} size="large">
-                            {board[0].author}
+                            {board[0]?.author}
                         </Avatar>
                     </Space>
                 }
                 extra={
                 account_id == user?.id &&
-                    [<Button key="1" type="primary">수정</Button>]}
+                    [
+                        <Space size="middle">
+                            <Popconfirm placement="top" title={"정말 삭제하시겠습니까?"} onConfirm={onClickDeleteHandler} okText="삭제" cancelText="취소">
+                                <Button danger >삭제</Button>
+                            </Popconfirm>
+                            <Link to={`/board/write/${params.boardId}`}>
+                                <Button key="1" type="primary" onClick={onClickUpdateHandler}>수정</Button>
+                            </Link>
+                        </Space>
+                    ]}
             >
                 <br />
-                <Form form={form}>
-                    <Typography>
-                        <Title>{board[0].title}</Title>
-                        <Paragraph>
-                           {contentsDetail}
-                        </Paragraph>
-                    </Typography>
-                </Form>
+                {
+                    board.length > 0 && <Viewer initialValue={board[0]?.contents}/>
+                }
             </PageHeader>
         </>
     )
-}
-
+};
 export default BoardDetail;

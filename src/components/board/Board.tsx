@@ -1,16 +1,32 @@
 import React, {useEffect, useState} from "react";
 import {List, Avatar, Badge, Skeleton} from 'antd';
-import { MessageOutlined, LikeOutlined, StarOutlined, StarFilled } from '@ant-design/icons';
+import { MessageOutlined, LikeOutlined } from '@ant-design/icons';
 import IconText from "./IconText";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../reducers";
 import {Link} from "react-router-dom";
 import {GET_BOARD_ALL_REQUEST_ACTION} from "../../reducers/board";
+import {marked} from 'marked';
+// @ts-ignore
+import PlainTextRenderer from "marked-plaintext";
 
 const Board = () => {
     const {boards, common} = useSelector((state:RootState) => state.board);
     const [pageNumber, setPageNumber] = useState(0);
     const dispatch = useDispatch();
+    const convertToPlainText = (markdownText: string) => {
+        const plaintextOptions = {
+            sanitize: false,
+        }
+        const renderer = new PlainTextRenderer();
+        renderer.checkbox= (text: string) => {
+            return text;
+        }
+        // @ts-ignore
+        marked.setOptions(plaintextOptions);
+        return marked(markdownText, {renderer})
+    }
+
 
     useEffect(() => {
         dispatch(GET_BOARD_ALL_REQUEST_ACTION(pageNumber));
@@ -55,7 +71,9 @@ const Board = () => {
                       }
                       description={regDate}
                     />
-                    {contents}
+                        {
+                            convertToPlainText(contents)
+                        }
                     </Badge.Ribbon>
                 </Skeleton>
             </List.Item>

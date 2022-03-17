@@ -73,6 +73,12 @@ export const GET_USER_INFO_REQUEST: string = "GET_USER_INFO_REQUEST";
 export const GET_USER_INFO_SUCCESS: string = "GET_USER_INFO_SUCCESS";
 export const GET_USER_INFO_FAILURE: string = "GET_USER_INFO_FAILURE";
 
+export const USER_RESET_REQUEST: string = "USER_RESET_REQUEST";
+
+export const USER_RESET_REQUEST_ACTION = () => ({
+    type: USER_RESET_REQUEST,
+})
+
 export const LOGOUT_REQUEST_ACTION = () => ({
     type: LOGOUT_REQUEST,
 })
@@ -96,6 +102,18 @@ export const LOGIN_MODAL_CLOSE_ACTION = () => ({
 
 const reducer = (state: LoginRootStateType = initialState, action: actionType) => {
     switch (action.type) {
+        case USER_RESET_REQUEST:
+            return {
+                ...state,
+                common: {
+                    ...state.common,
+                    isLoggedIn: false,
+                },
+                loginResponse: {
+                    ...state.loginResponse,
+                    user: {}
+                }
+            }
         case LOGOUT_REQUEST:
             return {
                 ...state

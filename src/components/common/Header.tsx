@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {LOGIN_MODAL_OPEN_ACTION} from "../../reducers/login";
 import {RootState} from "../../reducers";
 import User from "../login/User";
+import {Link} from "react-router-dom";
 
 const Header = () => {
 
@@ -18,7 +19,9 @@ const Header = () => {
     return (
         <header className="header_container">
             <div className="header_wrap">
-                <h1>폴리 과제용</h1>
+                <h1>
+                    <Link to={"/"}>폴리 과제용</Link>
+                </h1>
                 {
                     isLoggedIn
                         ? <User />
