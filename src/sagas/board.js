@@ -15,13 +15,13 @@ import {
 import {message} from "antd";
 
 function findBoardAllAPI(action) {
-    return axios.get("http://localhost:8082/api/v1/boards", {
+    return axios.get("/boards", {
         params: action.data,
     });
 }
 
 function findBoardAPI(action) {
-    return axios.get(`http://localhost:8082/api/v1/board/${action.data}`);
+    return axios.get(`/board/${action.data}`);
 }
 
 function writeBoardAPI(action) {
@@ -29,7 +29,7 @@ function writeBoardAPI(action) {
     const config = {
         headers: { Authorization: token },
     }
-    return axios.post(`http://localhost:8082/api/v1/board`, action.data, config);
+    return axios.post(`/board`, action.data, config);
 }
 
 function updateBoardAPI(action) {
@@ -37,7 +37,7 @@ function updateBoardAPI(action) {
     const config = {
         headers: { Authorization: token },
     }
-    return axios.put(`http://localhost:8082/api/v1/board`, action.data, config);
+    return axios.put(`/board`, action.data, config);
 }
 
 function deleteBoardAPI(action) {
@@ -48,7 +48,7 @@ function deleteBoardAPI(action) {
         },
         headers: { Authorization: token },
     }
-    return axios.delete(`http://localhost:8082/api/v1/board`, config);
+    return axios.delete(`/board`, config);
 }
 
 function* findBoardAll(action) {

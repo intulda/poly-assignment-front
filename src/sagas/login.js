@@ -11,7 +11,7 @@ import axios from "axios";
 import {message} from "antd";
 
 function loginAPI(action) {
-    return axios.post("http://localhost:8082/api/v1/account/login", action.data);
+    return axios.post("/account/login", action.data);
 }
 
 function logoutAPI() {
@@ -19,7 +19,7 @@ function logoutAPI() {
     const config = {
         headers: { Authorization: token },
     }
-    return axios.post("http://localhost:8082/api/v1/account/logout", {}, config);
+    return axios.post("/account/logout", {}, config);
 }
 
 
@@ -28,7 +28,7 @@ function getUserInfoAPI() {
     const config = {
         headers: { Authorization: token },
     }
-    return axios.get("http://localhost:8082/api/v1/account", config);
+    return axios.get("/account", config);
 }
 
 function* login(action) {
