@@ -12,7 +12,7 @@ interface initialStateType {
     },
     search: {
         keyword: string,
-        searchType: string,
+        type: string,
     },
     detail: {
         title: string,
@@ -32,7 +32,7 @@ const initialState: initialStateType= {
     },
     search: {
         keyword: "",
-        searchType: "all",
+        type: "all",
     },
     detail: {
         title: null,
@@ -95,9 +95,13 @@ export const BOARD_WRITE_REQUEST_ACTION = (param: object) => ({
     data: param,
 })
 
-export const GET_BOARD_ALL_REQUEST_ACTION = (pageNumber: number) => ({
+export const GET_BOARD_ALL_REQUEST_ACTION = (pageNumber: number = 0, type: string = "all", keyword: string = "") => ({
     type: GET_BOARD_ALL_REQUEST,
-    data: {pageNumber}
+    data: {
+        pageNumber,
+        type,
+        keyword
+    }
 });
 
 export const GET_BOARD_BY_ID_REQUEST_ACTION = (param: number) => ({

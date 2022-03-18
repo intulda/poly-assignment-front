@@ -45,6 +45,9 @@ function* login(action) {
         yield put({
             type: LOGIN_MODAL_CLOSE,
         })
+        yield put({
+            type: GET_USER_INFO_REQUEST,
+        })
     } catch (err) {
         yield put({
             type: LOGIN_FAILURE,

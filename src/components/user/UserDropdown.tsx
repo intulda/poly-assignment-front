@@ -1,11 +1,11 @@
 import React from "react";
-import MyInfoMenu from "./MyInfoMenu";
+import MyInfoMenu from "../login/MyInfoMenu";
 import {Avatar, Badge, Dropdown} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 import {LOGOUT_REQUEST_ACTION} from "../../reducers/login";
 import {useDispatch} from "react-redux";
 
-const User = () => {
+const UserDropdown = () => {
 
     const dispatch = useDispatch();
     const onClickHandler = (e: any) => {
@@ -27,4 +27,4 @@ const User = () => {
     )
 }
 
-export default User;
+export default UserDropdown;

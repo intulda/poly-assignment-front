@@ -4,7 +4,7 @@ import {Button} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {LOGIN_MODAL_OPEN_ACTION} from "../../reducers/login";
 import {RootState} from "../../reducers";
-import User from "../login/User";
+import UserDropdown from "../user/UserDropdown";
 import {Link} from "react-router-dom";
 
 const Header = () => {
@@ -24,7 +24,7 @@ const Header = () => {
                 </h1>
                 {
                     isLoggedIn
-                        ? <User />
+                        ? <UserDropdown />
                         : <Button htmlType="button" onClick={onHandleLoginModal}>로그인</Button>
                 }
             </div>
