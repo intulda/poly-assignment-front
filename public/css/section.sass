@@ -1,6 +1,32 @@
 .section_container
   max-width: calc(1280px)
   margin: 0 auto
+  padding: 40px 0
+
 
 .section_wrap
-  padding: 120px 20px
+  display: flex
+  justify-content: center
+  align-items: center
+  flex-direction: column
+  padding: 100px 100px
+  & .site-page-hader
+    border: 1px solid rgb(235, 237, 240)
+  & .ant-page-header
+    width: 1000px
+    padding: 16px 0
+  & .ant-list
+    width: 100%
+
+.section_header
+  display: flex
+  justify-content: space-between
+  font-size: 2rem
+  font-weight: 200
+  width: 100%
+  border-bottom: 1px solid #bfbfbf
+  margin: 30px 0
+  & > h1
+    flex: 7
+  & > span
+    flex: 3

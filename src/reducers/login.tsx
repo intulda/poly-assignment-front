@@ -14,7 +14,11 @@ export interface LoginRootStateType {
     loginResponse: {
         status: number,
         token: string,
-        user: object,
+        user: {
+            id: number,
+            account: string,
+            name: string
+        },
     }
 }
 
@@ -32,14 +36,23 @@ const initialState: LoginRootStateType = {
     loginResponse: {
         status: null,
         token: null,
-        user: null,
+        user: {
+            id: null,
+            account: null,
+            name: null,
+        },
     }
 }
 
-interface actionType {
+export interface actionType {
     data: {
         status: number,
-        token: string
+        token: string,
+        user: {
+            id: number,
+            account: string,
+            name: string
+        },
     },
     type: string,
 }
@@ -59,6 +72,12 @@ export const LOGIN_MODAL_CLOSE: string = "LOGIN_MODAL_CLOSE";
 export const GET_USER_INFO_REQUEST: string = "GET_USER_INFO_REQUEST";
 export const GET_USER_INFO_SUCCESS: string = "GET_USER_INFO_SUCCESS";
 export const GET_USER_INFO_FAILURE: string = "GET_USER_INFO_FAILURE";
+
+export const USER_RESET_REQUEST: string = "USER_RESET_REQUEST";
+
+export const USER_RESET_REQUEST_ACTION = () => ({
+    type: USER_RESET_REQUEST,
+})
 
 export const LOGOUT_REQUEST_ACTION = () => ({
     type: LOGOUT_REQUEST,
@@ -83,6 +102,18 @@ export const LOGIN_MODAL_CLOSE_ACTION = () => ({
 
 const reducer = (state: LoginRootStateType = initialState, action: actionType) => {
     switch (action.type) {
+        case USER_RESET_REQUEST:
+            return {
+                ...state,
+                common: {
+                    ...state.common,
+                    isLoggedIn: false,
+                },
+                loginResponse: {
+                    ...state.loginResponse,
+                    user: {}
+                }
+            }
         case LOGOUT_REQUEST:
             return {
                 ...state
@@ -186,6 +217,7 @@ const reducer = (state: LoginRootStateType = initialState, action: actionType) =
                 }
             }
         case GET_USER_INFO_FAILURE:
+            localStorage.removeItem("refreshToken");
             return {
                 ...state,
                 common: {

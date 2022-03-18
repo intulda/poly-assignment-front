@@ -7,8 +7,10 @@ const devMode = process.env.NODE_ENV !== "production";
 dotenv.config();
 
 module.exports = {
+    mode: 'development',
     entry: './index.js',
     output: {
+        publicPath: '/',
         path: path.resolve(__dirname, './dist'),
         filename: 'bundle.js'
     },
@@ -19,6 +21,7 @@ module.exports = {
     devServer: {
         port: 3000,
         hot: true,
+        historyApiFallback: true,
     },
     module: {
         rules: [
